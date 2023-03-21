@@ -1,14 +1,13 @@
 package jpabook.jpashop.domain;
 
 import jpabook.jpashop.domain.Item.Item;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)//생성방식을 하나로 통일하기 위해 막아놓기
 public class OrderItem {
 
     @Id @GeneratedValue
@@ -27,4 +26,28 @@ public class OrderItem {
     private int count; //주문 수량
 
 
+    //==생성 메서드==//
+    public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setItem(item);
+        orderItem.setOrderPrice(orderPrice);
+        orderItem.setCount(count);
+
+        item.removeStock(count);
+        return orderItem;
+    }
+
+    //==비즈니스 로직==//
+    public void cancel() {
+        getItem().addStock(count);
+    }
+
+    //=조회 로직==//
+
+    /**
+     * 주문상품 전체 가격 조회
+     */
+    public int getTotalPrice() {
+        return getOrderPrice() * getCount();
+    }
 }
