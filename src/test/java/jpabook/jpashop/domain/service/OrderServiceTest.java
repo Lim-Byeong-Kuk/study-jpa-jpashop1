@@ -1,13 +1,14 @@
 package jpabook.jpashop.domain.service;
 
 import jpabook.jpashop.domain.Address;
-import jpabook.jpashop.domain.Item.Book;
-import jpabook.jpashop.domain.Item.Item;
+import jpabook.jpashop.Item.Book;
+import jpabook.jpashop.Item.Item;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderStatus;
-import jpabook.jpashop.domain.exception.NotEnoughStockException;
-import jpabook.jpashop.domain.repository.OrderRepository;
+import jpabook.jpashop.exception.NotEnoughStockException;
+import jpabook.jpashop.repository.OrderRepository;
+import jpabook.jpashop.service.OrderService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,8 @@ import static org.assertj.core.api.Assertions.*;
 class OrderServiceTest {
 
     @Autowired EntityManager em;
-    @Autowired OrderService orderService;
+    @Autowired
+    OrderService orderService;
     @Autowired OrderRepository orderRepository;
 
     @Test
